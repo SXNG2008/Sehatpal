@@ -1,0 +1,25 @@
+:root {
+    --emergency-red: #DC2626; --medical-blue: #2563EB; --white: #FFFFFF;
+    --gray-50: #F9FAFB; --gray-100: #F3F4F6; --gray-300: #D1D5DB;
+    --gray-500: #6B7280; --radius-md: 0.5rem; --radius-lg: 1rem;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background-color: var(--gray-50); line-height: 1.5; }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+.flex { display: flex; } .justify-between { justify-content: space-between; }
+.hero-section { background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%); color: white; padding: 6rem 0; text-align: center; clip-path: ellipse(150% 100% at 50% 0%); }
+.logo-hero { font-size: 2.5rem; font-weight: 800; display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem; }
+.mode-actions { display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; }
+.mode-btn { background: white; padding: 1.5rem 3rem; border-radius: var(--radius-lg); color: var(--emergency-red); font-weight: 700; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+.mode-btn.opd { background: transparent; border: 2px solid white; color: white; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: -4rem; }
+.feature-card { background: white; padding: 2rem; border-radius: var(--radius-lg); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.btn { padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; cursor: pointer; border: none; }
+.btn-primary { background: var(--medical-blue); color: white; }
+.hub-header { background: white; border-bottom: 1px solid #ddd; padding: 1rem 0; }
+.nav-tabs { display: flex; gap: 2rem; margin-top: 1rem; }
+.nav-tab { color: var(--gray-500); text-decoration: none; padding-bottom: 0.5rem; }
+.nav-tab.active { color: var(--medical-blue); border-bottom: 2px solid var(--medical-blue); }
+.panel { background: white; padding: 2rem; border-radius: var(--radius-lg); margin-top: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.hospital-item { border: 1px solid var(--gray-100); padding: 1rem; border-radius: var(--radius-md); display: flex; justify-content: space-between; margin-bottom: 1rem; }
+.footer { background: var(--medical-blue); color: white; padding: 4rem 0; margin-top: 4rem; }
