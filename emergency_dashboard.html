@@ -2,34 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emergency Dashboard - Golden Hour</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body style="background-color: #FEF2F2;">
-    <header style="background: #DC2626; color: white; padding: 1rem; text-align: center;">
-        <h2 class="text-xl font-bold">Emergency Mode Active</h2>
-    </header>
-    <main class="container">
-        <div style="background: #F59E0B; color: white; padding: 1rem; border-radius: 0.5rem; margin: 2rem 0; font-weight: bold;">
-            ⚡ Golden Hour Active: Time is critical.
+<body class="body-emergency">
+    <header class="emergency-header header-bg-emergency">
+        <div class="container flex justify-between items-center">
+            <a href="emergency_scan.html" class="back-btn">← Back</a>
+            <h2 class="text-xl font-bold">Emergency Mode Active</h2>
+            <div class="spacer-50"></div>
         </div>
-        <div class="panel" style="border-top: 5px solid #DC2626;">
-            <h3 style="color: #DC2626; font-size: 1.5rem; margin-bottom: 1.5rem;">Critical Patient Information</h3>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
-                <div><p style="color: #6B7280;">Patient Name</p><p style="font-size: 1.5rem; font-weight: bold;">John Doe</p></div>
-                <div><p style="color: #6B7280;">Blood Group</p><p style="font-size: 1.5rem; font-weight: bold; color: #DC2626;">O+</p></div>
+    </header>
+
+    <main class="container main-content">
+        <div class="golden-hour-alert">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <div>
+                <div class="text-sm uppercase tracking-wide opacity-80">Golden Hour Active</div>
+                <div>Time is critical. Essential medical information displayed below.</div>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-                <div style="background: #FEE2E2; padding: 1rem; border-radius: 8px;">
-                    <h4 style="color: #991B1B;">Known Allergies</h4>
-                    <p>Penicillin, Peanuts</p>
-                </div>
-                <div style="background: #DBEAFE; padding: 1rem; border-radius: 8px;">
-                    <h4 style="color: #1E40AF;">Current Medications</h4>
-                    <p>Aspirin 100mg, Metformin 500mg</p>
+        </div>
+
+        <div class="panel panel-emergency-critical">
+            <div class="panel-header">
+                <h3 class="panel-title" id="patient-name-display">Loading Patient...</h3>
+            </div>
+            <div class="blood-group-box">
+                <div class="text-sm text-red-800 font-bold mb-1">Blood Group</div>
+                <div class="text-3xl font-extrabold text-red-600">O+</div>
+            </div>
+            <div class="grid gap-6">
+                <div>
+                    <h4 class="icon-text-header text-red-600">Known Allergies</h4>
+                    <div class="flex gap-2">
+                        <span class="badge-avail badge-allergy">Penicillin</span>
+                        <span class="badge-avail badge-allergy">Peanuts</span>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <script>
+        // SCRIPT TO FETCH DYNAMIC ID FROM URL
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const patientId = urlParams.get('id');
+            const display = document.getElementById('patient-name-display');
+
+            if (patientId) {
+                // Decodes the ID (e.g., changes %20 back to space)
+                display.innerText = "Patient: " + decodeURIComponent(patientId);
+            } else {
+                display.innerText = "Patient: John Doe (Demo)";
+            }
+        });
+    </script>
 </body>
 </html>
