@@ -2,29 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emergency Mode - Scan QR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 <body>
-    <header class="emergency-header" style="background: #DC2626; color: white; padding: 1rem; text-align: center;">
-        <div class="container flex justify-between">
-            <a href="index.html" style="color: white; text-decoration: none;">← Back</a>
+    <header class="emergency-header">
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="back-btn">← Back</a>
             <h2 class="text-xl font-bold">Emergency Mode</h2>
-            <div style="width: 50px;"></div>
+            <div class="spacer-50"></div>
         </div>
     </header>
+
     <main class="container">
-        <div class="scan-container" style="max-width: 600px; margin: 3rem auto; text-align: center; background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 15px rgba(0,0,0,0.1);">
-            <h2 style="color: #DC2626; margin-bottom: 1rem;">Emergency Patient QR Scanner</h2>
-            <div style="background: #FEF2F2; color: #991B1B; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+        <div class="scan-container">
+            <h2 class="text-2xl font-bold text-red-600" style="margin-bottom: 0.5rem;">Emergency Patient QR Scanner</h2>
+            <div class="scan-alert">
                 <strong>⚠️ For Emergency Responders Only</strong><br>
-                Scan patient's QR code to access critical information.
+                Scan patient's emergency QR code to instantly access critical medical information.
             </div>
-            <div style="background: #F3F4F6; height: 300px; border: 2px dashed #D1D5DB; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
-                <p style="color: #6B7280;">Ready to scan...</p>
-            </div>
-            <a href="emergency_dashboard.html" class="btn" style="background: #DC2626; color: white; width: 100%; display: block; text-decoration: none;">Start QR Scanner</a>
+
+            <div id="reader" style="width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 20px; border: 2px dashed #ccc;"></div>
+            
+            <div id="status" style="margin-top: 10px; color: var(--gray-500);">Camera ready. Please point at a QR code.</div>
         </div>
     </main>
+
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            // Stop scanning after success
+            html5QrcodeScanner.clear();
+            
+            // Logic: If QR is a full URL (like from Vercel), go to it.
+            // Otherwise, append the ID to the emergency dashboard.
+            if (decodedText.startsWith('http')) {
+                window.location.href = decodedText;
+            } else {
+                window.location.href = `emergency_dashboard.html?id=${encodeURIComponent(decodedText)}`;
+            }
+        }
+
+        function onScanFailure(error) {
+            // We ignore scanning failures (like when no QR is in view)
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", 
+            { fps: 10, qrbox: {width: 250, height: 250} },
+            /* verbose= */ false);
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script>
 </body>
 </html>
