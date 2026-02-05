@@ -2,35 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hospital Search - SehatPal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location-Based Hospital Search - SehatPal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="hub-header">
         <div class="container flex justify-between items-center">
-            <a href="index.html" style="font-weight: bold; color: #2563EB;">🛡️ SehatPal</a>
-            <nav><a href="index.html" class="text-sm font-bold">Back to Home</a></nav>
+            <a href="index.html" class="flex items-center gap-2">
+                <span class="text-xl">🛡️</span>
+                <span class="font-bold text-lg">SehatPal</span>
+            </a>
+            <nav><a href="index.html" class="text-sm font-bold text-gray-700 hover:text-blue-600">Back Home</a></nav>
         </div>
     </header>
+
     <div class="detail-hero">
         <div class="container">
             <span class="detail-icon">📍</span>
             <h1 class="text-2xl font-bold">Location-Based Hospital Search</h1>
+            <div id="gps-info" class="text-sm font-mono mt-2 text-blue-600">Detecting your GPS coordinates...</div>
         </div>
     </div>
+
     <main class="container">
         <div class="detail-content">
-            <p class="text-lg text-gray-500 mb-8">Rapidly connecting users with the nearest medical help.</p>
-            <h3 class="text-xl font-bold text-blue-600 mb-4">How It Works</h3>
-            <ul class="feature-list-check" style="line-height: 2;">
-                <li>Uses Location APIs to detect your current position automatically.</li>
-                <li>Fetches a list of nearby hospitals and clinics during emergencies.</li>
-                <li>Provides navigation and contact details for immediate action.</li>
-            </ul>
-            <div class="integration-box">
-                <strong>Integration:</strong> Seamless integration with Google Maps Platform for real-time accuracy.
+            <h3 class="text-xl font-bold text-blue-600 mb-4">Nearby Hospitals</h3>
+            <div id="hospital-results">
+                <p class="text-gray-500 italic">Please allow location access to see results.</p>
             </div>
         </div>
     </main>
+
+    <script>
+        window.onload = function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(success, error);
+            } else {
+                document.getElementById('gps-info').innerHTML = "Geolocation not supported by this browser.";
+            }
+        };
+
+        function success(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            
+            document.getElementById('gps-info').innerHTML = `📍 Live Position: ${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+            
+            const resultsDiv = document.getElementById('hospital-results');
+            resultsDiv.innerHTML = `
+                <div class="hospital-item">
+                    <div><strong>Closest Hospital Found</strong><br><span class="text-sm text-gray-500">Calculating route...</span></div>
+                    <span class="tag-normal">Active</span>
+                </div>
+                <button class="btn btn-primary width-full mt-4" onclick="window.open('https://www.google.com/maps/search/hospitals/@${lat},${lon},15z')">
+                    Open Results in Google Maps
+                </button>
+            `;
+        }
+
+        function error() {
+            document.getElementById('gps-info').innerHTML = "❌ Location access denied.";
+        }
+    </script>
 </body>
 </html>
