@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - SehatPal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="body-login">
+    <div class="login-card">
+        <h2 class="text-xl font-bold mb-4">Create Your SehatPal ID</h2>
+        <p class="text-sm text-gray-500 mb-6">Choose a unique username to start your profile.</p>
+        
+        <div class="input-group">
+            <label class="font-bold text-sm">Desired Username</label>
+            <input type="text" id="usernameInput" class="input-field" placeholder="e.g., Aditya_2026">
+        </div>
+
+        <button id="signupBtn" class="btn btn-primary width-full">Register My ID</button>
+        <p class="mt-4 text-sm"><a href="login.html" class="link-medical">Already have an ID? Login</a></p>
+    </div>
+
+    <script type="module">
+        import { db } from './firebase-config.js';
+        import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+        document.getElementById('signupBtn').addEventListener('click', async () => {
+            const username = document.getElementById('usernameInput').value.trim();
+            
+            if (!username) {
+                alert("Please enter a username!");
+                return;
+            }
+
+            try {
+                // This creates a NEW document in Firebase using the USERNAME as the ID
+                await setDoc(doc(db, "patients", username), {
+                    fullName: "",       // Starts blank
+                    bloodGroup: "",     // Starts blank
+                    allergies: "",      // Starts blank
+                    createdAt: new Date()
+                });
+
+                alert("ID Registered Successfully!");
+                // Send them to the dashboard with their new ID in the URL
+                window.location.href = `dashboard.html?id=${username}`;
+            } catch (error) {
+                console.error("Error creating profile:", error);
+                alert("Setup failed. Check your Firebase connection.");
+            }
+        });
+    </script>
+</body>
+</html>
